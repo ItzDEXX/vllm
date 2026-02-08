@@ -3,6 +3,7 @@
 
 import torch
 
+from vllm.attention.backends.abstract import is_quantized_kv_cache
 from vllm.logger import init_logger
 from vllm.model_executor.layers.quantization.base_config import (
     QuantizationConfig,
@@ -56,7 +57,10 @@ class BaseKVCacheMethod(QuantizeMethodBase):
         # regardless whether the kv-scale is available in the checkpoint.
         # No need to process kv scales after loading if we are going to
         # calculate them on the fly.
-        if layer.kv_cache_dtype != "auto" and not layer.calculate_kv_scales:
+        if (
+            is_quantized_kv_cache(layer.kv_cache_dtype)
+            and not layer.calculate_kv_scales
+        ):
             if layer.k_scale > 0.0 and layer.v_scale > 0.0:
                 # We prefer to use separate k_scale and v_scale if present
                 k_scale = layer.k_scale.to("cpu").tolist()

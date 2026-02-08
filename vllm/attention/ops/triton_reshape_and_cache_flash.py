@@ -110,7 +110,11 @@ def triton_reshape_and_cache_flash(
     head_stride = key_cache.stride()[2]
     assert head_stride == head_size, "only continous heads are supported"
 
-    assert kv_cache_dtype == "auto" or kv_cache_dtype.startswith("fp8"), (
+    assert kv_cache_dtype in (
+        "auto",
+        "bfloat16",
+        "float16",
+    ) or kv_cache_dtype.startswith("fp8"), (
         f"unsupported kv_cache_dtype (str), got {kv_cache_dtype}."
     )
     kv_cache_torch_dtype = (
