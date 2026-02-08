@@ -439,7 +439,5 @@ class MLAAttentionImpl(AttentionImpl[T], Generic[T]):
         raise NotImplementedError
 
 
-def is_quantized_kv_cache(kv_cache_dtype: str | None) -> bool:
-    if kv_cache_dtype is None:
-        return False
-    return kv_cache_dtype.lower().startswith("fp8")
+def is_quantized_kv_cache(kv_cache_dtype: str) -> bool:
+    return kv_cache_dtype != "auto"

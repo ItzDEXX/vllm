@@ -74,7 +74,7 @@ class ipex_ops:
         blocksparse_block_size: int = 64,
         blocksparse_head_sliding_step: int = 0,
     ) -> None:
-        assert kv_cache_dtype in ("auto", "bfloat16", "float16")
+        assert kv_cache_dtype == "auto"
         num_heads = out.size(1)
         num_queries_per_tokens = num_heads // num_kv_heads
         ipex.llm.modules.PagedAttention.single_query_kv_attention(
@@ -116,7 +116,7 @@ class ipex_ops:
         blocksparse_block_size: int = 64,
         blocksparse_head_sliding_step: int = 0,
     ) -> None:
-        assert kv_cache_dtype in ("auto", "bfloat16", "float16")
+        assert kv_cache_dtype == "auto"
         num_heads = out.size(1)
         num_queries_per_tokens = num_heads // num_kv_heads
         ipex.llm.modules.PagedAttention.single_query_kv_attention(
@@ -239,7 +239,7 @@ class ipex_ops:
         k_scale: float,
         v_scale: float,
     ) -> None:
-        assert kv_cache_dtype in ("auto", "bfloat16", "float16")
+        assert kv_cache_dtype == "auto"
         ipex.llm.modules.PagedAttention.reshape_and_cache(
             key, value, key_cache, value_cache, slot_mapping
         )
